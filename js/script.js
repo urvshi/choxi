@@ -1,7 +1,10 @@
+
+
 $(function(){
 	var SiteBase = 'http://localhost:78/choxi/';
 
 	function init(){
+
 			get_cart();	
 	}
 	function setCookie(cname, cvalue, exdays) {
@@ -206,11 +209,40 @@ $(function(){
 		event.preventDefault();
 	});
 
-	$("body").on("click",'.address_add,.address_edit',function(event){
+	//Edit Address
+	$("body").on("click",'.address_edit',function(event){
+		console.log("address Edit");
 		var dataObj = {
 						'id':$(this).data('id'),
-						'action':$(this).data('action')
+						'action':'edit'
 				}
+
+		$.ajax({
+			  method: "POST",
+			  url: SiteBase+"account/address_template.php",
+			  data:dataObj,
+			  dataType: "html",				
+			  success:function(data){
+
+			  	console.log(data);
+	  			var options ={
+								'html':data
+							 }
+				$.colorbox(options);
+			  	
+			  }
+			});
+
+
+
+		event.preventDefault();
+	});
+
+	$("body").on("click",'.address_add',function(event){
+		var dataObj = {	
+							'id':0,
+							'action':'add'
+					}
 
 			$.ajax({
 				  method: "POST",
@@ -222,91 +254,9 @@ $(function(){
 		  			var options ={
 									'html':data,
 									onComplete :function(){
-										
 										$.validate({
-										  			  form : '#user_address',
-													  onSuccess : function($form) {
-													  	
-													  	var address_from = $('#user_address');
-
-													  	var dataObj = address_from.serialize();
-														
-														/*
-														//Paid Address validation Service
-													  	
-														var StreetAddress = address_from.find("#addressLine1").val();
-														var City = address_from.find("#city").val();
-														var PostalCode =address_from.find("#zipCode").val();
-														var State = address_from.find("#stateName").val();
-														var AdditionalAddressInfo = address_from.find("#addressLine2").val();
-													  	
-													  	var Locale = 'en';
-													  	    $.ajax({
-																        url: 'http://api.address-validator.net/api/verify',
-																        type: 'POST',
-																        data: { StreetAddress: StreetAddress,
-																                City: City,
-																                PostalCode: PostalCode,
-																                State: State,
-																                AdditionalAddressInfo:AdditionalAddressInfo,
-																                CountryCode: 'USA',
-																                Locale: Locale,
-																                APIKey: 'uv-ef2d30663976b5a0304f47d1a3157d76'},
-																        dataType: 'json',
-																        success: function (json) {
-																			            // check API result
-																			            if (typeof(json.status) != "undefined") {
-																			                status = json.status;
-																			                formattedaddress = json.formattedaddress;
-																			                console.log(formattedaddress);
-
-																			            }
-																			            else{
-																			            	console.log("some Error");
-																			            }
-										        							}
-										    						});
-													  	    */
-
-													  	$.ajax({
-														  method: "POST",
-														  url: SiteBase+"account/process_address.php",
-														  data:dataObj,
-														  dataType: "json",				
-														  success:function(data){
-														  		if(data.result=="Address Processed"){
-														  			//document.location.reload(true);
-
-														  			$("#address_list").empty();
-														  			
-
-														$.each(data.address, function(i, val) {
-														  	var address_box = $('<div class="col-md-4 address" ></div>');
-														  	address_box.append($('<p class="address_action"><span><a href=""  data-action="edit" class="address_edit" data-id="'+val.id+'"><i class="fa fa-edit fa-lg"></i></a></span>						<span><a href="" class="address_delete" data-id="'+val.id+'"><i class="fa fa-trash fa-lg"></i></a></span></p>'));
-														  	address_box.append($('<p>'+val.fname+' ' +val.lname+'</p>'));
-										  					address_box.append($('<p>'+val.add1+'</p>'));
-
-										  					if(val.add1 !=''){
-										  						address_box.append($('<p>'+val.add2+'</p>'));
-										  					}
-										  					address_box.append($('<p>'+val.city+'</p>'));
-										  					address_box.append($('<p>'+val.state+'</p>'));
-										  					address_box.append($('<p>'+val.zip+'</p>'));
-										  					address_box.append($('<p>Phone : '+val.phone+'</p>'));
-
-														  	$("#address_list").append(address_box);
-														});
-															$.colorbox.close() 
-														
-															return false;
-														  	}
-														  	
-														  }
-														}); 
-													  								
-														return false;
-													  	}
-										});
+  			  										form : '#user_address'
+  			  									});
 									}
 								 }
 					$.colorbox(options);
@@ -316,50 +266,66 @@ $(function(){
 		event.preventDefault();
 	})
 
-/*$("body").on('submit','#user_address',function(event){
-*/	
+$("body").on('submit','#user_address',function(event){
+	var dataObj = $(this).serialize();
+	var StreetAddress = $(this).find("#addressLine1").val();
+	var City = $(this).find("#city").val();
+	var PostalCode =$(this).find("#zipCode").val();
+	var State = $(this).find("#stateName").val();
+	var AdditionalAddressInfo = $(this).find("#addressLine2").val();
+	$.validate({
+  			  form : '#user_address',
+			  onSuccess : function($form) {
+			  	
+			  	//Paid Address validation Service
+			  	/*
+			  	var Locale = 'en';
+			  	    $.ajax({
+						        url: 'http://api.address-validator.net/api/verify',
+						        type: 'POST',
+						        data: { StreetAddress: StreetAddress,
+						                City: City,
+						                PostalCode: PostalCode,
+						                State: State,
+						                AdditionalAddressInfo:AdditionalAddressInfo,
+						                CountryCode: 'USA',
+						                Locale: Locale,
+						                APIKey: 'uv-ef2d30663976b5a0304f47d1a3157d76'},
+						        dataType: 'json',
+						        success: function (json) {
+									            // check API result
+									            if (typeof(json.status) != "undefined") {
+									                status = json.status;
+									                formattedaddress = json.formattedaddress;
+									                console.log(formattedaddress);
 
+									            }
+									            else{
+									            	console.log("some Error");
+									            }
+        							}
+    						});
+			  	    */
 
-// Checkout Page Javascript
-
-$(".checkout_address").change(function(){
-	var id = $(this).val();	
-	var address_id = $(this).data("form");
-	if(id!=0){
-	var dataObj = {
-					'id':id
-					}
-
-			$.ajax({
+			  	$.ajax({
 				  method: "POST",
-				  url: SiteBase+"account/get_address.php",
+				  url: SiteBase+"account/process_address.php",
 				  data:dataObj,
 				  dataType: "json",				
 				  success:function(data){
+
 				  	console.log(data);
-
-				  	$("#"+address_id+" .fname").val(data.fname);
-				  	$("#"+address_id+" .lname").val(data.lname);
-				  	$("#"+address_id+" .add1").val(data.add1);
-				  	$("#"+address_id+" .add2").val(data.add2);
-				  	$("#"+address_id+" .city").val(data.city);
-				  	$("#"+address_id+" .state").val(data.state);
-				  	$("#"+address_id+" .zip").val(data.zip);
-				  	$("#"+address_id+" .phone").val(data.phone);
-				  	$("#"+address_id+" .zip").val(data.zip);
+				  	
 				  }
-				});
-	}else{
-
-	}
-
-})
+				}); 
+			  								}
+			});
 
 				
 
-/*	event.preventDefault();
+	event.preventDefault();
 })
-*/
+
 	init();
 
 })

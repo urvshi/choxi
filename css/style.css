@@ -5,6 +5,10 @@ p{
 	padding: 0px;
 	margin: 0px;
 }
+.help-block.form-error{
+	display: none;
+
+}
 .success{
 	color: white;
 	border:solid 1px green;

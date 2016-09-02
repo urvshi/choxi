@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-	
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.23/theme-default.min.css" type="text/css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SITE_BASE; ?>css/style.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo SITE_BASE; ?>css/default.css">
   <link rel="stylesheet" type="text/css" href="<?php echo SITE_BASE; ?>css/colorbox.css">

@@ -4,7 +4,7 @@ unset($_SESSION['user']);
 <div class="container">
 
 
-
+<p>Please Log In Or Register Before your procceed to checkout.</p>
 <div class="modal-dialog modal-lg">
 
     <!-- Modal content-->

@@ -1,5 +1,5 @@
 <?php 
-$check_log_in ="YES";
+//$check_log_in ="YES";
 include_once("includes/init.php");
 echo "<pre>";
 print_r($_SESSION);

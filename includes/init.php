@@ -2,14 +2,14 @@
 date_default_timezone_set('America/New_York');
 require_once("functions.php");
 require_once("database.php");
-if(isset($check_log_in) && $check_log_in=="YES"){
-	 if(isset($_SESSION['user']['loged_in']) && $_SESSION['user']['loged_in']='YES'){
+    if(isset($check_log_in) && $check_log_in=="YES"){
+    	 if(isset($_SESSION['user']['loged_in']) && $_SESSION['user']['loged_in']='YES'){
 
-	 }
-	 else{
-	 	redirect_to(SITE_BASE."log_in.php");
-	 }
-}
+    	 }
+    	 else{
+    	 	redirect_to(SITE_BASE."sign_in.php");
+    	 }
+    }
   	$states = array(
     'AL'=>'Alabama',
     'AK'=>'Alaska',
